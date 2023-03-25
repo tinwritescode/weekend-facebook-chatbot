@@ -1,5 +1,5 @@
 //@ts-ignore
-import login from "facebook-chat-api";
+import login from "fca-unofficial";
 import { env } from "./env.js";
 import { options } from "./libs/facebook-chat-api.js";
 import { MessageInfo } from "./types/message.js";

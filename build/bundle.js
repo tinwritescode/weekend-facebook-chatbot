@@ -1,4 +1,4 @@
-import login from 'facebook-chat-api';
+import login from 'fca-unofficial';
 import { z } from 'zod';
 import dotenv from 'dotenv';
 import fs from 'fs/promises';

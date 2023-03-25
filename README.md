@@ -14,7 +14,7 @@ This is a repository for the GPT Facebook Chatbot. It was built during the devel
 First, clone the repository:
 
 ```
-git clone <https://github.com/tinwritescode/weekend-facebook-chatbot>
+git clone https://github.com/tinwritescode/weekend-facebook-chatbot
 ```
 
 ## Deploy on [Fly.io](http://fly.io/)

@@ -9,8 +9,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "patch-package",
-    "dev": "nodemon",
-    "start": "ts-node-esm ./src/index.ts"
+    "dev": "rollup -cw",
+    "start": "node ./build/bundle.js",
+    "build": "rollup -c"
   },
   "keywords": [],
   "author": "",
@@ -25,11 +26,15 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@rollup/plugin-run": "^3.0.1",
+    "@rollup/plugin-typescript": "^11.0.0",
     "@types/express": "^4.17.17",
     "@types/node": "^18.15.9",
     "dotenv": "^16.0.3",
     "nodemon": "^2.0.22",
+    "rollup": "^3.20.2",
     "ts-node-dev": "^2.0.0",
+    "tslib": "^2.5.0",
     "typescript": "^5.0.2"
   }
 }

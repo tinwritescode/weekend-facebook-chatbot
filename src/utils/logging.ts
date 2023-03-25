@@ -3,6 +3,10 @@ export const log = (message: string) => {
   return console.log(`[LOG-${new Date().toLocaleTimeString()}] ${message}`);
 };
 
+export const error = (message: string) => {
+  return console.error(`[ERROR-${new Date().toLocaleTimeString()}] ${message}`);
+};
+
 export const getCurrentUserInfo = (api: any): Promise<UserInfo> => {
   return new Promise(async (resolve, reject) => {
     api.getUserInfo([await api.getCurrentUserID()], (err: any, data: any) => {

@@ -5,23 +5,40 @@ import { options } from "./libs/facebook-chat-api.js";
 import { MessageInfo } from "./types/message.js";
 // import { MessageInfo } from "./types/message";
 import { convertCookieToAppState, readJsonFile } from "./utils/index.js";
-import { getCurrentUserInfo, getUserInfo, log } from "./utils/logging.js";
+import {
+  error,
+  getCurrentUserInfo,
+  getUserInfo,
+  log,
+} from "./utils/logging.js";
 import express from "express";
 
 (async function () {
+  log("Starting bot...");
+  log("Reading cookie file...");
   const cookieFileContent = await readJsonFile(env.COOKIE_PATH);
+  log("Converting cookie file to app state...");
   const appState = await convertCookieToAppState(cookieFileContent);
   const { ChatGPTAPI } = await import("chatgpt");
   const appChatGPT = new ChatGPTAPI({
     apiKey: env.OPENAI_API_KEY,
   });
 
+  log("Logging in...");
   await login({ appState }, options, async (err: any, api: any) => {
-    if (err) return console.error(err);
+    if (err) {
+      const errMessage = err?.[0]?.message || err;
+      return error(errMessage);
+    }
 
     log("Logged in as " + (await getCurrentUserInfo(api)).name);
 
-    api.listenMqtt(async (_err: any, message: MessageInfo) => {
+    api.listenMqtt(async (err: any, message: MessageInfo) => {
+      if (err) {
+        const errMessage = err?.[0]?.message || err;
+        api.sendMessage(`Error: ${errMessage}`);
+        return error(errMessage);
+      }
       if (!message?.body) {
         return;
       }
@@ -45,6 +62,7 @@ import express from "express";
           message.body.replace("/gpt ", "")
         );
         api.sendMessage(res.text, message.threadID);
+        log(`Message to ${message.threadID}: ${res.text.slice(0, 20)}...`);
       }
     });
   });

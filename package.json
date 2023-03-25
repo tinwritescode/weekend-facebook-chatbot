@@ -1,0 +1,21 @@
+{
+  "name": "confusedajarengines",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+	"postinstall": "patch-package"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "facebook-chat-api": "^1.8.0",
+    "patch-package": "^6.5.1"
+	  
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.3"
+  }
+}

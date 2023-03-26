@@ -12,6 +12,7 @@ import {
   log,
 } from "./utils/logging.js";
 import express from "express";
+import { map } from "./utils/map.js";
 
 (async function () {
   log("Starting bot...");
@@ -58,9 +59,17 @@ import express from "express";
         getUserInfo(api, message.senderID).then((data) => {
           log(`Message from ${data.name}: ${message.body}`);
         });
+        const conversationId = map.get(message.threadID);
+
         const res = await appChatGPT.sendMessage(
-          message.body.replace("/gpt ", "")
+          message.body.replace("/gpt ", ""),
+          {
+            parentMessageId: conversationId,
+          }
         );
+
+        if (res.conversationId) map.set(message.threadID, res.conversationId);
+
         api.sendMessage(res.text, message.threadID);
         log(`Message to ${message.threadID}: ${res.text.slice(0, 20)}...`);
       }

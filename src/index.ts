@@ -59,16 +59,16 @@ import { map } from "./utils/map.js";
         getUserInfo(api, message.senderID).then((data) => {
           log(`Message from ${data.name}: ${message.body}`);
         });
-        const conversationId = map.get(message.threadID);
+        const parentMessageId = map.get(message.threadID);
 
         const res = await appChatGPT.sendMessage(
           message.body.replace("/gpt ", ""),
           {
-            parentMessageId: conversationId,
+            parentMessageId: parentMessageId,
           }
         );
 
-        if (res.conversationId) map.set(message.threadID, res.conversationId);
+        if (res.id) map.set(message.threadID, res.id);
 
         api.sendMessage(res.text, message.threadID);
         log(`Message to ${message.threadID}: ${res.text.slice(0, 20)}...`);

@@ -9,6 +9,7 @@ const dev = process.env.ROLLUP_WATCH === "true";
 export default {
   input: "src/index.ts",
   output: {
+    sourcemap: true,
     file: "build/bundle.js",
     format: "esm",
   },
